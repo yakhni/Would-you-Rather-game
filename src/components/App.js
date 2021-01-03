@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading'
 import handleInitialData from '../actions/initial'
+import QuestionsList from './QuestionsList'
+import NewQuestion from './NewQuestion'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Nav from './Nav'
 
 class App extends Component {
   componentDidMount(){
@@ -10,11 +14,17 @@ class App extends Component {
   render() {
     return (
     <div>
-        <LoadingBar />
+      <LoadingBar />
+      <Router>
+        <Nav />
         {this.props.loading === true
           ? null
-          : <div>App</div>
+          : <div>
+              <Route exact path='/' component={QuestionsList} />
+              <Route path='/new' component={NewQuestion} />
+            </div>
         }
+      </Router>
     </div>
     )
   }
