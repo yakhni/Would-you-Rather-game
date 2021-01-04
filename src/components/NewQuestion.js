@@ -13,10 +13,11 @@ class NewQuestion extends Component {
 
   handleOnClick = (e) => {
     e.preventDefault()
-    const { dispatch, authedUser } = this.props
+    const { history, dispatch, authedUser } = this.props
     const { optionOneText, optionTwoText } = this.state
 
     dispatch(handleNewQuestion({ optionOneText, optionTwoText, author: authedUser }))
+    history.push('/')
   }
 
   onChange = (e) => {
