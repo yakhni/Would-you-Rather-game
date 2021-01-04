@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Question from './Question'
 import Result from './Result'
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
 
 class QuestionsList extends Component {
 
@@ -10,13 +12,18 @@ class QuestionsList extends Component {
 
     return (
       <div>
-        <h1>Answered Questions</h1>
-        {answeredQuestions.map(
-          qid => <Result qid={qid} key={qid} />)}
-        <hr/>
-        <h1>Unanswered Questions</h1>
-        {unansweredQuestions.map(
-          qid => <Question qid={qid} key={qid} />)}
+        <Tabs defaultActiveKey="unanswered">
+
+          <Tab eventKey="unanswered" title="Unanswered">
+            {unansweredQuestions.map(
+              qid => <Question qid={qid} key={qid} />)}
+          </Tab>
+          <Tab eventKey="answered" title="Answered">
+            {answeredQuestions.map(
+              qid => <Result qid={qid} key={qid} />)}
+          </Tab>
+
+        </Tabs>
         <hr/>
 
       </div>

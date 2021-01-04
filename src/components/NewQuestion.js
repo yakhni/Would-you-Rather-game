@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleNewQuestion } from '../actions/questions'
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form';
 
 class NewQuestion extends Component {
   state = {
@@ -28,12 +31,20 @@ class NewQuestion extends Component {
 
     return (
       <div>
-        <h1>Create new Question</h1>
-        <h2>Would you Rather...</h2>
-        <input type='text' id='optionOneText' placeholder='Enter optionOne Text here' value={optionOneText} onChange={this.onChange} />
-        <p>OR</p>
-        <input type='text' id='optionTwoText' placeholder='Enter optionTwo Text here' value={optionTwoText} onChange={this.onChange}/>
-        <button type='button' onClick={this.handleOnClick}>Submit</button>
+        <Card>
+          <Card.Header className='text-center'>
+            <h5>Create new Question</h5>
+          </Card.Header>
+          <Card.Body>
+            <p className='text-center'>Would you Rather...</p>
+            <Form.Control type='text' id='optionOneText' placeholder='Enter optionOne Text here' value={optionOneText} onChange={this.onChange} />
+            <p className='pt-3 text-center'>-------OR--------</p>
+            <Form.Control type='text' id='optionTwoText' placeholder='Enter optionTwo Text here' value={optionTwoText} onChange={this.onChange}/>
+
+            <br />
+            <Button variant='info' onClick={this.handleOnClick} block>Submit</Button>
+          </Card.Body>
+        </Card>
       </div>
     )
   }

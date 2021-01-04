@@ -1,19 +1,49 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Card from 'react-bootstrap/Card'
+import Image from 'react-bootstrap/Image'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 class Result extends Component {
   render() {
-    const { myAnswer, otherAnswer, myVotes, otherVotes, totalVotes } = this.props
+    const { askedBy, myAnswer, otherAnswer, myVotes, otherVotes, totalVotes } = this.props
+    const myPercentVote = Math.round((myVotes/totalVotes) * 100)
+    const otherPercentVote = Math.round((otherVotes/totalVotes) * 100)
 
     return (
-      <div>
-        <h2>You Answered</h2>
-        <p>You'd rather {myAnswer}</p>
-        <p>{myVotes} out of {totalVotes} votes</p>
-
-        <p>You'd rather {otherAnswer}</p>
-        <p>{otherVotes} out of {totalVotes} votes</p>
-
+      <div className='pt-5'>
+        <Card>
+          <Card.Header>
+            Asked by {askedBy}
+          </Card.Header>
+          <Card.Body>
+            <Card border='info'>
+              <Card.Body>
+                <p>You'd rather {myAnswer}</p>
+                <ProgressBar
+                  variant='info'
+                  className="progress"
+                  striped label={`${myPercentVote}%`}
+                  now={myPercentVote}
+                />
+                <p className='text-center'><small>{myVotes} out of {totalVotes} votes</small></p>
+              </Card.Body>
+            </Card>
+            <br />
+            <Card>
+              <Card.Body>
+                <p>People who'd rather {otherAnswer}</p>
+                <ProgressBar
+                  variant='info'
+                  className="progress"
+                  striped label={`${otherPercentVote}%`}
+                  now={otherPercentVote}
+                />
+                <p className='text-center'><small>{otherVotes} out of {totalVotes} votes</small></p>
+              </Card.Body>
+            </Card>
+          </Card.Body>
+        </Card>
       </div>
     )
   }
@@ -40,7 +70,8 @@ function mapStateToProps({ authedUser, users, questions }, { qid }) {
     otherAnswer: option === 'optionOne' ? optionTwoText : optionOneText,
     myVotes: sameResponse,
     otherVotes: differentResponse,
-    totalVotes: differentResponse + sameResponse
+    totalVotes: differentResponse + sameResponse,
+    askedBy: users[questions[qid].author].name
   }
 }
 export default connect(mapStateToProps)(Result)

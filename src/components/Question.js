@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleSaveAnswer } from '../actions/users'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card'
+import Image from 'react-bootstrap/Image'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class Question extends Component {
   state = {
@@ -17,42 +24,59 @@ class Question extends Component {
   }
 
   handleOnClick = (e) => {
-    // console.log('handleSubmit')
     e.preventDefault()
     const { dispatch, qid, authedUser } = this.props
     dispatch(handleSaveAnswer(authedUser, qid, this.state.selected))
-    // console.log('Submitting ', this.state)
   }
 
   render() {
-    // console.log('Question props: ', this.props)
-    const { qid, question } = this.props
+    const { qid, question, avatar, author } = this.props
     return (
-      <div>
-        <h2>Would you rather... </h2>
-        <p>
-          <label>
-            <input type='radio' name={qid} value='optionOne' onChange={this.handleOnChange}/>
-            {question.optionOne.text}
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type='radio' name={qid} value='optionTwo' onChange={this.handleOnChange}/>
-            {question.optionTwo.text}
-          </label>
-        </p>
-        <button type='button' onClick={this.handleOnClick}>Submit</button>
+      <div className='pt-5'>
+        <Card>
+          <Card.Header as="h5">{author} asks ...</Card.Header>
+          <Card.Body>
+            <Container>
+              <Row>
+                <Col>
+                  <Image src={avatar} roundedCircle fluid />
+                </Col>
+                <Col lg={9} md={9} sm={9} xs={9} >
+                  Would you rather...
+                  {['optionOne', 'optionTwo'].map(option => (
+                    <Form.Check
+                      key={qid + option}
+                      type='radio'
+                      label={question[option].text}
+                      name={qid}
+                      value={option}
+                      onChange={this.handleOnChange}
+                    />
+                  ))}
+                </Col>
+              </Row>
+
+            </Container>
+
+            <Button
+              variant='info'
+              className='mt-3'
+              block
+              onClick={this.handleOnClick}>Submit</Button>
+          </Card.Body>
+        </Card>
       </div>
     )
   }
 }
 
-function mapStateToProps({ questions, authedUser }, {qid}) {
+function mapStateToProps({ questions, authedUser, users }, {qid}) {
   return {
     qid,
     authedUser,
-    question: questions[qid]
+    question: questions[qid],
+    avatar: users[questions[qid].author].avatarURL,
+    author: users[questions[qid].author].name
   }
 }
 export default connect(mapStateToProps)(Question)

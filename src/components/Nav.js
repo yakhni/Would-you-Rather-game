@@ -1,21 +1,42 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import Image from 'react-bootstrap/Image'
+import Button from 'react-bootstrap/Button';
+import { setAuthedUser } from '../actions/authedUser'
+import { connect } from 'react-redux'
 
-export default function Nav () {
-  return (
-    <nav className='nav'>
-      <ul>
-        <li>
-          <NavLink to='/' exact activeClassName='active'>
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/new' activeClassName='active'>
-            New Question
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
-  )
+class Navigation extends Component {
+  handleOnClick = (e) => {
+    e.preventDefault()
+    this.props.dispatch(setAuthedUser(''))
+  }
+
+  render() {
+    const { avatar, authedUser } = this.props
+    return (
+      <Navbar bg="dark" variant="dark" expand="md">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Brand>Would You Rather?</Navbar.Brand>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to='/'>
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to='/add'>
+              New Question
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Text>
+          <Image src={avatar} roundedCircle fluid className='menu-avatar mr-2 mb-1'/>
+          {authedUser? `Hello, ${authedUser}`: ''}
+        </Navbar.Text>
+        <Button variant='info' onClick={this.handleOnClick} className='ml-3'>Logout</Button>
+      </Navbar>
+    )
+  }
 }
+
+export default connect()(Navigation)
