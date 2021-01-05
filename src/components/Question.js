@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleSaveAnswer } from '../actions/users'
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card'
-import Image from 'react-bootstrap/Image'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Cardify from './Cardify'
 
 class Question extends Component {
   state = {
@@ -31,41 +26,23 @@ class Question extends Component {
 
   render() {
     const { qid, question, avatar, author } = this.props
+
     return (
-      <div className='pt-5'>
-        <Card>
-          <Card.Header as="h5">{author} asks ...</Card.Header>
-          <Card.Body>
-            <Container>
-              <Row>
-                <Col>
-                  <Image src={avatar} roundedCircle fluid />
-                </Col>
-                <Col lg={9} md={9} sm={9} xs={9} >
-                  Would you rather...
-                  {['optionOne', 'optionTwo'].map(option => (
-                    <Form.Check
-                      key={qid + option}
-                      type='radio'
-                      label={question[option].text}
-                      name={qid}
-                      value={option}
-                      onChange={this.handleOnChange}
-                    />
-                  ))}
-                </Col>
-              </Row>
-
-            </Container>
-
-            <Button
-              variant='info'
-              className='mt-3'
-              block
-              onClick={this.handleOnClick}>Submit</Button>
-          </Card.Body>
-        </Card>
-      </div>
+      <Cardify
+        avatar={avatar}
+        author={author}
+        btnText='Submit'
+        btnHandler={this.handleOnClick}
+        cardBody={['optionOne', 'optionTwo'].map(option => (
+          <Form.Check
+            key={qid + option}
+            type='radio'
+            label={question[option].text}
+            name={qid}
+            value={option}
+            onChange={this.handleOnChange} />))
+            }
+          />
     )
   }
 }
@@ -75,8 +52,7 @@ function mapStateToProps({ questions, authedUser, users }, {qid}) {
     qid,
     authedUser,
     question: questions[qid],
-    avatar: users[questions[qid].author].avatarURL,
-    author: users[questions[qid].author].name
+    author: users[questions[qid].author]
   }
 }
 export default connect(mapStateToProps)(Question)
