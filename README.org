@@ -1,0 +1,19 @@
+#+TITLE: Readme
+This project is a React App for 'Would you rather ...' questions, such as:
+#+begin_src
+1. Would you rather the aliens that make first contact be robotic or organic?
+2. Would you rather lose the ability to read or lose the ability to speak?
+3. Would you rather have a golden voice or a silver tongue?
+#+end_src
+
+- Each question has 2 options.
+- Each user can create new 'would you rather' questions, respond to questions.
+- There's a leaderboard where users can see who answered the most and questioned the most.
+
+* Project Installation
+#+begin_src bash
+npm install
+npm start
+#+end_src
+
+Executing the above commands should automatically redirect you to http://localhost:3000 in your browser.
