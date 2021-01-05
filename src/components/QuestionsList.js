@@ -1,43 +1,49 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Question from './Question'
-import Result from './Result'
+import QuestionCompact from './QuestionCompact'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 
 class QuestionsList extends Component {
 
   render() {
-    const { answeredQuestions, unansweredQuestions } = this.props
+    const { answered, unanswered} = this.props
 
     return (
       <div>
         <Tabs defaultActiveKey="unanswered">
 
           <Tab eventKey="unanswered" title="Unanswered">
-            {unansweredQuestions.map(
-              qid => <Question qid={qid} key={qid} />)}
+            {unanswered.map(qid =>
+              <QuestionCompact qid={qid} key={qid} />)}
           </Tab>
           <Tab eventKey="answered" title="Answered">
-            {answeredQuestions.map(
-              qid => <Result qid={qid} key={qid} />)}
+            {answered.map(qid =>
+              <QuestionCompact qid={qid} key={qid} />)}
           </Tab>
 
         </Tabs>
         <hr/>
-
       </div>
     )
   }
 }
 
 function mapStateToProps({ authedUser, questions, users }) {
-  const answered = authedUser ? Object.keys(users[authedUser].answers) : []
+  const answered = authedUser
+    ? Object.keys(users[authedUser].answers)
+      .sort((a, b) => (questions[b].timestamp - questions[a].timestamp))
+    : []
+
+  const unanswered = authedUser
+    ? Object.keys(questions)
+        .filter(q => !answered.includes(q))
+        .sort((a, b) => (questions[b].timestamp - questions[a].timestamp))
+    : []
+
   return {
-    answeredQuestions: answered,
-    unansweredQuestions: answered
-      ? Object.keys(questions).filter(q => !answered.includes(q))
-      : []
+    answered: answered,
+    unanswered: unanswered
   }
 }
 export default connect(mapStateToProps)(QuestionsList)

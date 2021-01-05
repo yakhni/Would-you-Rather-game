@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading'
 import handleInitialData from '../actions/initial'
+import QuestionDetail from './QuestionDetail'
 import QuestionsList from './QuestionsList'
 import NewQuestion from './NewQuestion'
 import Login from './Login'
@@ -36,6 +37,7 @@ class App extends Component {
               <Col />
               <Col md={6}>
                 <div>
+                  <Route path='/questions/:qid' component={QuestionDetail}/>
                   <Route exact path='/' component={QuestionsList} />
                   <Route path='/add' component={NewQuestion} />
                   <Route path='/leaderboard' component={Leaderboard} />
