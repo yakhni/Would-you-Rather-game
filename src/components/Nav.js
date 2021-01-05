@@ -27,6 +27,9 @@ class Navigation extends Component {
             <Nav.Link as={Link} to='/add'>
               New Question
             </Nav.Link>
+            <Nav.Link as={Link} to='/leaderboard'>
+              Leaderboard
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Text>

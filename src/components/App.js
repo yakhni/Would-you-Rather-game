@@ -11,6 +11,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Redirect } from 'react-router-dom'
+import Leaderboard from './Leaderboard'
 
 class App extends Component {
   componentDidMount(){
@@ -37,6 +38,7 @@ class App extends Component {
                 <div>
                   <Route exact path='/' component={QuestionsList} />
                   <Route path='/add' component={NewQuestion} />
+                  <Route path='/leaderboard' component={Leaderboard} />
                 </div>
               </Col>
               <Col />
