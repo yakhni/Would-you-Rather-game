@@ -6,11 +6,13 @@ import Image from 'react-bootstrap/Image'
 import Button from 'react-bootstrap/Button';
 import { setAuthedUser } from '../actions/authedUser'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 class Navigation extends Component {
   handleOnClick = (e) => {
     e.preventDefault()
     this.props.dispatch(setAuthedUser(''))
+    this.props.history.push('/')
   }
 
   render() {
@@ -42,4 +44,4 @@ class Navigation extends Component {
   }
 }
 
-export default connect()(Navigation)
+export default withRouter(connect()(Navigation))

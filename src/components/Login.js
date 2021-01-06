@@ -11,6 +11,8 @@ class Login extends Component {
   handleOnClick =(e) => {
     const { dispatch } = this.props
     dispatch(setAuthedUser(e.target.value))
+    const redirect = this.props.location.state ? this.props.location.state.from : '/'
+    this.props.history.push(redirect)
   }
 
   render() {
