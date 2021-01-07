@@ -13,10 +13,10 @@ class NewQuestion extends Component {
 
   handleOnClick = (e) => {
     e.preventDefault()
-    const { history, dispatch, authedUser } = this.props
+    const { history, handleNewQuestion, authedUser } = this.props
     const { optionOneText, optionTwoText } = this.state
 
-    dispatch(handleNewQuestion({ optionOneText, optionTwoText, author: authedUser }))
+    handleNewQuestion({ optionOneText, optionTwoText, author: authedUser })
     history.push('/')
   }
 
@@ -56,4 +56,4 @@ function mapStateToProps({ authedUser }) {
     authedUser
   }
 }
-export default connect(mapStateToProps)(NewQuestion)
+export default connect(mapStateToProps, { handleNewQuestion })(NewQuestion)
