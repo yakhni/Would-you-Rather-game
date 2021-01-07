@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { handleSaveAnswer } from '../actions/users'
 import Form from 'react-bootstrap/Form';
 import Cardify from './Cardify'
+import NotFound from './NotFound';
 
 class Question extends Component {
   state = {
@@ -27,7 +28,7 @@ class Question extends Component {
   render() {
     const { qid, question, avatar, author } = this.props
 
-    return (
+    return (!question) ? < NotFound /> : (
       <Cardify
         avatar={avatar}
         author={author}
@@ -52,7 +53,7 @@ function mapStateToProps({ questions, authedUser, users }, {qid}) {
     qid,
     authedUser,
     question: questions[qid],
-    author: users[questions[qid].author]
+    author: questions[qid]? users[questions[qid].author] : null
   }
 }
 export default connect(mapStateToProps)(Question)
