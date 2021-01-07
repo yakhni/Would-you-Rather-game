@@ -21,8 +21,8 @@ class Question extends Component {
 
   handleOnClick = (e) => {
     e.preventDefault()
-    const { dispatch, qid, authedUser } = this.props
-    dispatch(handleSaveAnswer(authedUser, qid, this.state.selected))
+    const { handleSaveAnswer, qid, authedUser } = this.props
+    handleSaveAnswer(authedUser, qid, this.state.selected)
   }
 
   render() {
@@ -48,12 +48,12 @@ class Question extends Component {
   }
 }
 
-function mapStateToProps({ questions, authedUser, users }, {qid}) {
+function mapStateToProps({ questions, authedUser, users }, { qid } ) {
   return {
     qid,
     authedUser,
     question: questions[qid],
-    author: questions[qid]? users[questions[qid].author] : null
+    author: questions[qid]? users[questions[qid].author] : null,
   }
 }
-export default connect(mapStateToProps)(Question)
+export default connect(mapStateToProps,  { handleSaveAnswer } )(Question)
